@@ -1,0 +1,1033 @@
+{
+  "info": {
+    "name": "API Apartamentos",
+    "description": "API REST para alquilar pisos y habitaciones: clientes, propiedades, unidades rentables, disponibilidad, reservas, pagos, reseñas y notificaciones. Ejecuta las carpetas en orden sobre una base vacía.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "clienteId",
+      "value": ""
+    },
+    {
+      "key": "propietarioId",
+      "value": ""
+    },
+    {
+      "key": "propiedadId",
+      "value": ""
+    },
+    {
+      "key": "unidadId",
+      "value": ""
+    },
+    {
+      "key": "reservaId",
+      "value": ""
+    },
+    {
+      "key": "pagoId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1 · Clientes",
+      "item": [
+        {
+          "name": "Crear propietario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"PROPIETARIO\",\n  \"nombres\": \"Laura\",\n  \"apellidos\": \"Méndez Torres\",\n  \"email\": \"laura@correo.com\",\n  \"password\": \"demo1234\",\n  \"telefono\": \"5511112222\",\n  \"fechaNacimiento\": \"1990-04-12\",\n  \"ine\": \"METL900412\",\n  \"direccion\": \"Calle Roble 15\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"propietarioId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Jorge\",\n  \"apellidos\": \"Ruiz Peña\",\n  \"email\": \"jorge@correo.com\",\n  \"password\": \"demo1234\",\n  \"telefono\": \"5533334444\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"clienteId\", pm.response.json().id);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear cliente con email inválido (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Sin\",\n  \"apellidos\": \"Correo\",\n  \"email\": \"no-es-email\",\n  \"password\": \"demo1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear cliente con email repetido (409)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Otra\",\n  \"apellidos\": \"Laura\",\n  \"email\": \"laura@correo.com\",\n  \"password\": \"demo1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo\": \"CLIENTE\",\n  \"nombres\": \"Jorge\",\n  \"apellidos\": \"Ruiz Peña\",\n  \"email\": \"jorge.ruiz@correo.com\",\n  \"password\": \"demo1234\",\n  \"telefono\": \"5533334444\",\n  \"estatus\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cliente que no existe (404)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2 · Propiedades",
+      "item": [
+        {
+          "name": "Crear propiedad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propietario\": {\n    \"id\": 1\n  },\n  \"tipo\": \"Departamento\",\n  \"titulo\": \"Departamento en el centro\",\n  \"descripcion\": \"Departamento amueblado con vista a la ciudad\",\n  \"direccion\": \"Av. Juárez 10, Centro\",\n  \"ciudad\": \"Ciudad de México\",\n  \"estadoFederativo\": \"CDMX\",\n  \"codigoPostal\": \"06000\",\n  \"pais\": \"México\",\n  \"latitud\": 19.4326,\n  \"longitud\": -99.1332,\n  \"precioNoche\": 1200,\n  \"capacidad\": 4,\n  \"numHabitaciones\": 2,\n  \"numBanos\": 1,\n  \"metrosCuadrados\": 70,\n  \"comodidades\": \"Wifi, cocina, lavadora\",\n  \"reglas\": \"No fumar, no fiestas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedades"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"propiedadId\", pm.response.json().idPropiedad);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar propiedades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedades"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Propiedades por tipo (actividad)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedades/tipo/Departamento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedades",
+                "tipo",
+                "Departamento"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener propiedad",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedades/{{propiedadId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedades",
+                "{{propiedadId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar propiedad",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propietario\": {\n    \"id\": 1\n  },\n  \"tipo\": \"Departamento\",\n  \"titulo\": \"Departamento renovado en el centro\",\n  \"descripcion\": \"Departamento amueblado con vista a la ciudad\",\n  \"direccion\": \"Av. Juárez 10, Centro\",\n  \"ciudad\": \"Ciudad de México\",\n  \"estadoFederativo\": \"CDMX\",\n  \"codigoPostal\": \"06000\",\n  \"pais\": \"México\",\n  \"latitud\": 19.4326,\n  \"longitud\": -99.1332,\n  \"precioNoche\": 1350,\n  \"capacidad\": 4,\n  \"numHabitaciones\": 2,\n  \"numBanos\": 1,\n  \"metrosCuadrados\": 70,\n  \"comodidades\": \"Wifi, cocina, lavadora\",\n  \"reglas\": \"No fumar, no fiestas\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedades/{{propiedadId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedades",
+                "{{propiedadId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Agregar imagen",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propiedad\": {\n    \"idPropiedad\": 1\n  },\n  \"url\": \"https://ejemplo.com/fotos/sala.jpg\",\n  \"descripcion\": \"Sala principal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedad-imagenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedad-imagenes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar imágenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/propiedad-imagenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "propiedad-imagenes"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3 · Unidades y disponibilidad",
+      "item": [
+        {
+          "name": "Crear unidad rentable",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propiedad\": {\n    \"idPropiedad\": 1\n  },\n  \"nombre\": \"Habitación principal\",\n  \"tipo\": \"Habitación\",\n  \"capacidad\": 2,\n  \"precioNoche\": 650\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/unidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "unidades"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"unidadId\", pm.response.json().idUnidad);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Crear unidad con capacidad 0 (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propiedad\": {\n    \"idPropiedad\": 1\n  },\n  \"nombre\": \"Error\",\n  \"tipo\": \"Habitación\",\n  \"capacidad\": 0,\n  \"precioNoche\": 500\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/unidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "unidades"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar unidades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/unidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "unidades"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener unidad",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/unidades/{{unidadId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "unidades",
+                "{{unidadId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar disponibilidad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unidad\": {\n    \"idUnidad\": 1\n  },\n  \"fechaInicio\": \"2026-12-20T00:00:00\",\n  \"fechaFin\": \"2026-12-31T23:59:00\",\n  \"disponible\": true,\n  \"precioEspecial\": 900\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/disponibilidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "disponibilidades"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar disponibilidades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/disponibilidades",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "disponibilidades"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4 · Reservas",
+      "item": [
+        {
+          "name": "Crear reserva (calcula importeTotal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unidad\": {\n    \"idUnidad\": 1\n  },\n  \"cliente\": {\n    \"id\": 2\n  },\n  \"fechaEntrada\": \"2026-11-01T15:00:00\",\n  \"fechaSalida\": \"2026-11-04T11:00:00\",\n  \"comentario\": \"Llegamos por la tarde\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reservas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservas"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"reservaId\", pm.response.json().idReservacion);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reserva con fechas cruzadas (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unidad\": {\n    \"idUnidad\": 1\n  },\n  \"cliente\": {\n    \"id\": 2\n  },\n  \"fechaEntrada\": \"2026-11-02T15:00:00\",\n  \"fechaSalida\": \"2026-11-05T11:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reservas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reserva con salida antes de entrada (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"unidad\": {\n    \"idUnidad\": 1\n  },\n  \"cliente\": {\n    \"id\": 2\n  },\n  \"fechaEntrada\": \"2026-11-10T15:00:00\",\n  \"fechaSalida\": \"2026-11-08T11:00:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reservas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar reservas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener reserva",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reservas/{{reservaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reservas",
+                "{{reservaId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5 · Pagos",
+      "item": [
+        {
+          "name": "Registrar pago",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reserva\": {\n    \"idReservacion\": 1\n  },\n  \"importe\": 1950,\n  \"fechaVencimiento\": \"2026-10-30\",\n  \"metodo\": \"TARJETA_CREDITO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"pagoId\", pm.response.json().idPago);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Pago mayor que la reserva (400)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reserva\": {\n    \"idReservacion\": 1\n  },\n  \"importe\": 99999,\n  \"fechaVencimiento\": \"2026-10-30\",\n  \"metodo\": \"EFECTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirmar pago",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/{{pagoId}}/confirmar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "{{pagoId}}",
+                "confirmar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirmar dos veces (400)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/{{pagoId}}/confirmar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "{{pagoId}}",
+                "confirmar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reembolsar pago",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/{{pagoId}}/reembolsar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "{{pagoId}}",
+                "reembolsar"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar pagos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Pago que no existe (404)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/999/confirmar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "999",
+                "confirmar"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6 · Reseñas y notificaciones",
+      "item": [
+        {
+          "name": "Crear reseña",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reserva\": {\n    \"idReservacion\": 1\n  },\n  \"cliente\": {\n    \"id\": 2\n  },\n  \"calificacionGeneral\": 5,\n  \"calificacionComunicacion\": 4,\n  \"comentario\": \"Muy limpio y bien ubicado\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/resenas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "resenas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar reseñas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/resenas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "resenas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enviar notificación",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remitente\": {\n    \"id\": 1\n  },\n  \"destinatario\": {\n    \"id\": 2\n  },\n  \"asunto\": \"Instrucciones de llegada\",\n  \"mensaje\": \"La llave está en recepción.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/notificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notificaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar notificaciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/notificaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "notificaciones"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
