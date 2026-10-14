@@ -5,7 +5,7 @@
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 <div th:replace="~{fragments/layout :: alerts}"></div>
 <main class="app-shell py-5 form-page">
-    <a class="back-link" th:href="@{/pagos}">← Volver a pagos</a>
+    <a class="back-link" th:href="@{/pagos}"><i class="bi bi-arrow-left"></i> Volver a pagos</a>
     <div class="page-header compact"><div><p class="eyebrow">CONTROL FINANCIERO</p><h1 th:text="${modo + ' pago'}">Registrar pago</h1><p class="page-lede">La reserva determina el cliente y limita el importe disponible.</p></div></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <form class="form-surface" th:object="${pago}" th:action="${modo == 'Crear'} ? @{/pagos} : @{/pagos/{id}(id=${pago.idPago})}" method="post">

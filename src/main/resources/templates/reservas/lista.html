@@ -7,7 +7,7 @@
 <main class="app-shell py-5">
     <div class="page-header">
         <div><p class="eyebrow">OPERACIÓN</p><h1>Reservas</h1><p class="page-lede">Consulta estancias, estados y disponibilidad en un solo lugar.</p></div>
-        <a class="btn btn-accent" th:href="@{/reservas/nueva}">+ Nueva reserva</a>
+        <a class="btn btn-accent" th:href="@{/reservas/nueva}"><i class="bi bi-plus-lg"></i> Nueva reserva</a>
     </div>
     <div class="table-wrap">
         <table class="table align-middle mb-0">
@@ -19,8 +19,8 @@
                     <td><strong th:text="${reserva.unidad.nombre}">Unidad</strong><small class="d-block text-muted" th:text="${reserva.unidad.propiedad.titulo}">Propiedad</small></td>
                     <td><span th:text="${#temporals.format(reserva.fechaEntrada, 'dd/MM/yyyy HH:mm')}">Entrada</span><small class="d-block text-muted" th:text="${'hasta ' + #temporals.format(reserva.fechaSalida, 'dd/MM/yyyy HH:mm')}">Salida</small></td>
                     <td th:text="${reserva.importeTotal != null ? '$' + reserva.importeTotal : 'Pendiente'}">$0</td>
-                    <td><span class="badge-status" th:classappend="${reserva.estado == 'CANCELADA' ? ' badge-cancelled' : ''}" th:text="${reserva.estado}">PENDIENTE</span></td>
-                    <td class="text-end"><a class="action-link" th:href="@{/reservas/{id}/editar(id=${reserva.idReservacion})}">Editar</a><form class="d-inline" th:action="@{/reservas/{id}/cancelar(id=${reserva.idReservacion})}" method="post"><button class="action-link action-danger" type="submit" th:disabled="${reserva.estado == 'CANCELADA'}">Cancelar</button></form></td>
+                    <td><span class="badge-status" th:classappend="${reserva.estado == 'CANCELADA' ? ' badge-cancelled' : ''}" th:attr="data-estado=${reserva.estado}" th:text="${reserva.estado}">PENDIENTE</span></td>
+                    <td class="text-end"><a class="action-link" th:href="@{/reservas/{id}/editar(id=${reserva.idReservacion})}"><i class="bi bi-pencil"></i> Editar</a><form class="d-inline" th:action="@{/reservas/{id}/cancelar(id=${reserva.idReservacion})}" method="post"><button class="action-link action-danger" type="submit" th:disabled="${reserva.estado == 'CANCELADA'}"><i class="bi bi-x-circle"></i> Cancelar</button></form></td>
                 </tr>
             </tbody>
         </table>

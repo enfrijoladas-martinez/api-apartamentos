@@ -5,7 +5,7 @@
 <nav th:replace="~{fragments/layout :: navbar}"></nav>
 <div th:replace="~{fragments/layout :: alerts}"></div>
 <main class="app-shell py-5 form-page">
-    <a class="back-link" th:href="@{/reservas}">← Volver a reservas</a>
+    <a class="back-link" th:href="@{/reservas}"><i class="bi bi-arrow-left"></i> Volver a reservas</a>
     <div class="page-header compact"><div><p class="eyebrow">OPERACIÓN</p><h1 th:text="${modo + ' reserva'}">Crear reserva</h1><p class="page-lede">El importe se calcula con el precio nocturno de la unidad.</p></div></div>
     <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
     <form class="form-surface" th:object="${reserva}" th:action="${modo == 'Crear'} ? @{/reservas} : @{/reservas/{id}(id=${reserva.idReservacion})}" method="post">

@@ -7,7 +7,7 @@
 <main class="app-shell py-5">
     <div class="page-header">
         <div><p class="eyebrow">CONTROL FINANCIERO</p><h1>Pagos</h1><p class="page-lede">Registra, confirma y da seguimiento a los cobros de tus reservas.</p></div>
-        <a class="btn btn-accent" th:href="@{/pagos/nuevo}">+ Registrar pago</a>
+        <a class="btn btn-accent" th:href="@{/pagos/nuevo}"><i class="bi bi-plus-lg"></i> Registrar pago</a>
     </div>
     <div class="table-wrap">
         <table class="table align-middle mb-0">
@@ -19,8 +19,8 @@
                     <td><strong th:text="${pago.reserva.unidad.nombre}">Unidad</strong><small class="d-block text-muted" th:text="${pago.cliente.nombres + ' ' + pago.cliente.apellidos}">Cliente</small></td>
                     <td><strong th:text="${'$' + pago.importe}">$0</strong><small class="d-block text-muted" th:text="${'reserva $' + pago.reserva.importeTotal}">Reserva</small></td>
                     <td th:text="${#temporals.format(pago.fechaVencimiento, 'dd/MM/yyyy')}">01/01/2026</td>
-                    <td><span class="badge-status" th:classappend="${pago.estado.name() == 'REEMBOLSADO' or pago.estado.name() == 'RECHAZADO' ? ' badge-cancelled' : ''}" th:text="${pago.estado}">PENDIENTE</span></td>
-                    <td class="text-end"><a class="action-link" th:href="@{/pagos/{id}/editar(id=${pago.idPago})}" th:if="${pago.estado.name() != 'PAGADO' and pago.estado.name() != 'REEMBOLSADO'}">Editar</a><form class="d-inline" th:if="${pago.estado.name() == 'PENDIENTE' or pago.estado.name() == 'EN_PROCESO'}" th:action="@{/pagos/{id}/confirmar(id=${pago.idPago})}" method="post"><button class="action-link" type="submit">Confirmar</button></form><form class="d-inline" th:if="${pago.estado.name() == 'PAGADO'}" th:action="@{/pagos/{id}/reembolsar(id=${pago.idPago})}" method="post"><button class="action-link action-danger" type="submit">Reembolsar</button></form><form class="d-inline" th:if="${pago.estado.name() != 'PAGADO' and pago.estado.name() != 'REEMBOLSADO'}" th:action="@{/pagos/{id}/eliminar(id=${pago.idPago})}" method="post"><button class="action-link action-danger" type="submit">Eliminar</button></form></td>
+                    <td><span class="badge-status" th:classappend="${pago.estado.name() == 'REEMBOLSADO' or pago.estado.name() == 'RECHAZADO' ? ' badge-cancelled' : ''}" th:attr="data-estado=${pago.estado}" th:text="${pago.estado}">PENDIENTE</span></td>
+                    <td class="text-end"><a class="action-link" th:href="@{/pagos/{id}/editar(id=${pago.idPago})}" th:if="${pago.estado.name() != 'PAGADO' and pago.estado.name() != 'REEMBOLSADO'}"><i class="bi bi-pencil"></i> Editar</a><form class="d-inline" th:if="${pago.estado.name() == 'PENDIENTE' or pago.estado.name() == 'EN_PROCESO'}" th:action="@{/pagos/{id}/confirmar(id=${pago.idPago})}" method="post"><button class="action-link" type="submit"><i class="bi bi-check2-circle"></i> Confirmar</button></form><form class="d-inline" th:if="${pago.estado.name() == 'PAGADO'}" th:action="@{/pagos/{id}/reembolsar(id=${pago.idPago})}" method="post"><button class="action-link action-danger" type="submit"><i class="bi bi-arrow-counterclockwise"></i> Reembolsar</button></form><form class="d-inline" th:if="${pago.estado.name() != 'PAGADO' and pago.estado.name() != 'REEMBOLSADO'}" th:action="@{/pagos/{id}/eliminar(id=${pago.idPago})}" method="post"><button class="action-link action-danger" type="submit"><i class="bi bi-trash"></i> Eliminar</button></form></td>
                 </tr>
             </tbody>
         </table>
